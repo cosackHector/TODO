@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-type TaskType = {
+export type TaskType = {
   id: number,
   title: string,
   isDone: boolean
@@ -9,28 +9,23 @@ type TaskType = {
 type PropsType = {
   title: string
   tasks: Array<TaskType>
+  onRemoveTask: Function
+  onCheckedClick: Function
+  onAllTasks: Function
+  onActiveTasks: Function
 };
 
-const Todo = (props: PropsType) => {
-  // const [isChecked, setIsChecked] = useState(false)
-  // const handleClick = () => {
-  //   return setIsChecked(!isChecked)
-  // }
-  const onHandleClick = (i: number) => {
-    console.log(props.tasks[i].isDone);
-    props.tasks[i].isDone = !props.tasks[i].isDone
-  };
-
+export const Todo = (props: PropsType) => {
   const tasks = props.tasks
     .map((task: any, i: number) => {
       return (
         <li key={i}>
-          <input 
-            // onClick={()=>onHandleClick(i)}
-            onChange={()=>onHandleClick(i)} 
+          <input
+            onChange={()=>props.onCheckedClick(task.id)} 
             checked={task.isDone} 
             type="checkbox" />
           <span>{task.title}</span>
+          <button onClick={()=>props.onRemoveTask(task.id)}>done</button>
         </li>)
         });
 
@@ -43,12 +38,11 @@ const Todo = (props: PropsType) => {
         {tasks}
       </ul>
       <div>
-        <button>All</button>
-        <button>Active</button>
+        <button onClick={()=>props.onAllTasks()}>All</button>
+        <button onClick={()=>props.onActiveTasks()}>Active</button>
         <button>Completed</button>
       </div>
     </div>
   )
 };
 
-export default Todo;
