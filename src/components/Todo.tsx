@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { TypeForFilterTasks } from '../App';
 
 export type TaskType = {
   id: number,
@@ -9,10 +9,8 @@ export type TaskType = {
 type PropsType = {
   title: string
   tasks: Array<TaskType>
-  onRemoveTask: Function
-  onCheckedClick: Function
-  onAllTasks: Function
-  onActiveTasks: Function
+  onRemoveTask: (id: number) => void
+  filteredTasks: (type: TypeForFilterTasks) => void
 };
 
 export const Todo = (props: PropsType) => {
@@ -21,7 +19,6 @@ export const Todo = (props: PropsType) => {
       return (
         <li key={i}>
           <input
-            onChange={()=>props.onCheckedClick(task.id)} 
             checked={task.isDone} 
             type="checkbox" />
           <span>{task.title}</span>
@@ -38,9 +35,9 @@ export const Todo = (props: PropsType) => {
         {tasks}
       </ul>
       <div>
-        <button onClick={()=>props.onAllTasks()}>All</button>
-        <button onClick={()=>props.onActiveTasks()}>Active</button>
-        <button>Completed</button>
+        <button onClick={()=>props.filteredTasks('all')}>All</button>
+        <button onClick={()=>props.filteredTasks('active')}>Active</button>
+        <button onClick={()=>props.filteredTasks('completed')}>Completed</button>
       </div>
     </div>
   )
