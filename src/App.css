@@ -7,17 +7,18 @@
   margin-right: 50px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.error {
+  border: red 1px solid;
 }
 
-.App-link {
-  color: #61dafb;
+.error_message {
+  color:  red;
+}
+
+.active_filter {
+  background-color: aquamarine;
+}
+
+.is_done {
+  opacity: 0.5;
 }
