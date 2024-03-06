@@ -64,6 +64,12 @@ function App() {
       setTacks({...tasksObj})
     }
   }
+  const removeTodoList = (todoListId: string) => {
+    const filteredTodoList = todoLists.filter(tdl => tdl.id !== todoListId)
+    setTodoLists(filteredTodoList)
+    delete tasksObj[todoListId]
+    setTacks({...tasksObj})
+  }
 
   return (
     <div className="App">
@@ -85,7 +91,8 @@ function App() {
           removeTask={removeTask} 
           filteredTasks={filteredTasks} 
           addTask={addTask}
-          changeStatus={changeStatus}/>
+          changeStatus={changeStatus}
+          removeTodoList={removeTodoList}/>
       })}
     </div>
   )

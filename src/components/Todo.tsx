@@ -16,13 +16,16 @@ type PropsType = {
   filteredTasks: (type: TypeForFilterTasks, id: string) => void
   addTask: (title: string,  todoListId: string) => void
   changeStatus: (taskId: string,  todoListId: string) => void
+  removeTodoList: (id: string) => void
 };
 
 export const Todo = (props: PropsType) => {
 
+  //---- STATES
 const [value, setValue] = useState('')
 const [error, setError] = useState<string | null>(null)
 
+  //---- EVENT FUNCTIONS
 const onPresKey = (e: KeyboardEvent<HTMLInputElement>) => {
   if (value.trim() !== '' && e.key === 'Enter' ) {
     props.addTask(value.trim(), props.id)
@@ -46,7 +49,9 @@ const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
 const onAllFilter = () => props.filteredTasks('all', props.id);
 const onActiveFilter = () => props.filteredTasks('active', props.id);
 const onCompletedFilter = () => props.filteredTasks('completed', props.id);
+const onRemoveTodoLIst = () => props.removeTodoList(props.id)
 
+  //---- TASKS LIST MAP
 const tasks = props.tasks.map((task: any, i: number) => {
   const onRemove = () => props.removeTask(task.id, props.id)
   const onChangeStatus = () => props.changeStatus(task.id, props.id)
@@ -66,6 +71,7 @@ const tasks = props.tasks.map((task: any, i: number) => {
   return  (
     <div className='Todo'>
       <h3>{props.title}</h3>
+      <button onClick={onRemoveTodoLIst}>Remove list</button>
       <input 
         className={ error ? 'error' : '' }
         value={value}
