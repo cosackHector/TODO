@@ -1,9 +1,8 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { TypeForFilterTasks } from '../App';
 import { AddItemForm } from './AddItemForm';
 
 // TYPES
-type TaskType = {
+export type TaskType = {
   id: string,
   title: string,
   isDone: boolean
@@ -23,13 +22,16 @@ type PropsType = {
 // COMPONENT
 export const Todo = (props: PropsType) => {
 
-  //---- EVENT FUNCTIONS
+  // EVENT FUNCTIONS
 const onAllFilter = () => props.filteredTasks('all', props.id);
 const onActiveFilter = () => props.filteredTasks('active', props.id);
 const onCompletedFilter = () => props.filteredTasks('completed', props.id);
-const onRemoveTodoLIst = () => props.removeTodoList(props.id)
+const onRemoveTodoLIst = () => props.removeTodoList(props.id);
+const addTask = (title: string) => {
+  props.addTask(title, props.id)
+};
 
-  //---- TASKS LIST MAP
+  // TASKS LIST MAP
 const tasks = props.tasks.map((task: any, i: number) => {
   const onRemove = () => props.removeTask(task.id, props.id)
   const onChangeStatus = () => props.changeStatus(task.id, props.id)
@@ -49,7 +51,7 @@ const tasks = props.tasks.map((task: any, i: number) => {
   return  (
     <div className='Todo'>
       <h3>{props.title}<button onClick={onRemoveTodoLIst}>Remove list</button></h3>
-      <AddItemForm id={props.id} addTask={props.addTask}/>
+      <AddItemForm addItem={addTask}/>
       <ul className='tasks_list'>
         {tasks}
       </ul>

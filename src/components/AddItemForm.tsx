@@ -2,8 +2,7 @@ import { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 // TYPES
 type ItemPropsType = {
-  id: string
-  addTask: (title: string,  todoListId: string) => void
+  addItem: (title: string) => void
 }
 
 // COMPONENT
@@ -16,7 +15,7 @@ export const AddItemForm = (props: ItemPropsType) => {
 // EVENT FUNCTIONS
   const onPresKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (value.trim() !== '' && e.key === 'Enter' ) {
-      props.addTask(value.trim(), props.id)
+      props.addItem(value.trim())
       setValue('')
     } else {
     setError('Invalid importance')
@@ -24,7 +23,7 @@ export const AddItemForm = (props: ItemPropsType) => {
   };
   const onAddTask = () => {
     if (value.trim() !== '') {
-    props.addTask(value.trim(), props.id)
+    props.addItem(value.trim())
     setValue('')
     } else {
     setError('Invalid importance')
