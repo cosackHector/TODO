@@ -90,18 +90,32 @@ function App() {
       [todoList.id]: []
     })
   }
+  const changeTitleInput = (newTitle: string, taskId: string, todoListId: string) => {
+    const task = tasksObj[todoListId].find(t => t.id === taskId)
+    if(task) {
+    task.title = newTitle
+    setTacks({...tasksObj})
+    }
+  }
+  const changeTodoListTitle = (newTitle: string, todoListId: string) => {
+    const todoList = todoLists.find(tdl => tdl.id === todoListId)
+    if(todoList) {
+    todoList.title = newTitle
+    setTodoLists([...todoLists])
+    }
+  }
 
   return (
     <div className="App">
       <AddItemForm addItem={addTodoList}/>
-      { 
-        todoLists.map(tdl => {
-          let tasksForTodo = tasksObj[tdl.id]
-          if(tdl.filter == 'active') {
-            tasksForTodo = tasksObj[tdl.id].filter(task => !task.isDone)
-          } 
-          if(tdl.filter == 'completed') {
-            tasksForTodo = tasksObj[tdl.id].filter(task => task.isDone)
+        { 
+          todoLists.map(tdl => {
+            let tasksForTodo = tasksObj[tdl.id]
+            if(tdl.filter == 'active') {
+              tasksForTodo = tasksObj[tdl.id].filter(task => !task.isDone)
+            } 
+            if(tdl.filter == 'completed') {
+              tasksForTodo = tasksObj[tdl.id].filter(task => task.isDone)
         }
         return <Todo 
           key={tdl.id}
@@ -113,7 +127,9 @@ function App() {
           filteredTasks={filteredTasks} 
           addTask={addTask}
           changeStatus={changeStatus}
-          removeTodoList={removeTodoList}/>
+          removeTodoList={removeTodoList}
+          changeTitleInput={changeTitleInput}
+          changeTodoListTitle={changeTodoListTitle}/>
       })}
     </div>
   )

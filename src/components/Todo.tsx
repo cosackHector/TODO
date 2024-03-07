@@ -1,5 +1,6 @@
 import { TypeForFilterTasks } from '../App';
 import { AddItemForm } from './AddItemForm';
+import { EditableSpan } from './EditableSpan';
 
 // TYPES
 export type TaskType = {
@@ -17,6 +18,8 @@ type PropsType = {
   addTask: (title: string,  todoListId: string) => void
   changeStatus: (taskId: string,  todoListId: string) => void
   removeTodoList: (id: string) => void
+  changeTitleInput: (newTitle: string, taskId: string, todoListId: string) => void
+  changeTodoListTitle: (newTitle: string, todoListId: string) => void
 };
 
 // COMPONENT
@@ -30,11 +33,18 @@ const onRemoveTodoLIst = () => props.removeTodoList(props.id);
 const addTask = (title: string) => {
   props.addTask(title, props.id)
 };
+const onChangeTitleTodoList = (newTitle: string,) => {
+  props.changeTodoListTitle(newTitle, props.id)
+}
+
 
   // TASKS LIST MAP
 const tasks = props.tasks.map((task: any, i: number) => {
   const onRemove = () => props.removeTask(task.id, props.id)
   const onChangeStatus = () => props.changeStatus(task.id, props.id)
+  const onChangeInputTitle = (newTitle: string) => {
+    props.changeTitleInput(newTitle, task.id, props.id)
+  }
   return (
     <li 
       key={task.id}
@@ -43,14 +53,21 @@ const tasks = props.tasks.map((task: any, i: number) => {
         onChange={onChangeStatus}
         checked={task.isDone} 
         type="checkbox" />
-      <span>{task.title}</span>
-      <button onClick={onRemove}>done</button>
+      <EditableSpan 
+        title={task.title}
+        onChangeInputTitle={onChangeInputTitle}/>
+      <button onClick={onRemove}>Выполнено</button>
     </li>)
   });
 
   return  (
     <div className='Todo'>
-      <h3>{props.title}<button onClick={onRemoveTodoLIst}>Remove list</button></h3>
+      <h3> 
+        <EditableSpan 
+          title={props.title}
+          onChangeInputTitle={onChangeTitleTodoList}/>
+          <button onClick={onRemoveTodoLIst}>Remove list</button>
+        </h3>
       <AddItemForm addItem={addTask}/>
       <ul className='tasks_list'>
         {tasks}
