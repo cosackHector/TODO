@@ -1,7 +1,8 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { TypeForFilterTasks } from '../App';
-import { title } from 'process';
+import { AddItemForm } from './AddItemForm';
 
+// TYPES
 type TaskType = {
   id: string,
   title: string,
@@ -19,33 +20,10 @@ type PropsType = {
   removeTodoList: (id: string) => void
 };
 
+// COMPONENT
 export const Todo = (props: PropsType) => {
 
-  //---- STATES
-const [value, setValue] = useState('')
-const [error, setError] = useState<string | null>(null)
-
   //---- EVENT FUNCTIONS
-const onPresKey = (e: KeyboardEvent<HTMLInputElement>) => {
-  if (value.trim() !== '' && e.key === 'Enter' ) {
-    props.addTask(value.trim(), props.id)
-    setValue('')
-  } else {
-  setError('Invalid importance')
-  }
-};
-const onAddTask = () => {
-  if (value.trim() !== '') {
-  props.addTask(value.trim(), props.id)
-  setValue('')
-  } else {
-  setError('Invalid importance')
-  }
-};
-const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
-  setValue(e.target.value)
-  setError(null)
-};
 const onAllFilter = () => props.filteredTasks('all', props.id);
 const onActiveFilter = () => props.filteredTasks('active', props.id);
 const onCompletedFilter = () => props.filteredTasks('completed', props.id);
@@ -70,15 +48,8 @@ const tasks = props.tasks.map((task: any, i: number) => {
 
   return  (
     <div className='Todo'>
-      <h3>{props.title}</h3>
-      <button onClick={onRemoveTodoLIst}>Remove list</button>
-      <input 
-        className={ error ? 'error' : '' }
-        value={value}
-        onChange={onChangeText}
-        onKeyDown={onPresKey}  />
-      <button onClick={onAddTask}>+</button>
-      { error && <div className='error_message'>{error}</div> }
+      <h3>{props.title}<button onClick={onRemoveTodoLIst}>Remove list</button></h3>
+      <AddItemForm id={props.id} addTask={props.addTask}/>
       <ul className='tasks_list'>
         {tasks}
       </ul>
@@ -96,4 +67,5 @@ const tasks = props.tasks.map((task: any, i: number) => {
     </div>
   )
 };
+
 
