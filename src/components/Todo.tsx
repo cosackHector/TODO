@@ -1,6 +1,10 @@
 import { TypeForFilterTasks } from '../App';
 import { AddItemForm } from './AddItemForm';
 import { EditableSpan } from './EditableSpan';
+import { IconButton } from '@mui/material';
+import { Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Checkbox from '@mui/material/Checkbox';
 
 // TYPES
 export type TaskType = {
@@ -35,8 +39,7 @@ const addTask = (title: string) => {
 };
 const onChangeTitleTodoList = (newTitle: string,) => {
   props.changeTodoListTitle(newTitle, props.id)
-}
-
+};
 
   // TASKS LIST MAP
 const tasks = props.tasks.map((task: any, i: number) => {
@@ -46,18 +49,19 @@ const tasks = props.tasks.map((task: any, i: number) => {
     props.changeTitleInput(newTitle, task.id, props.id)
   }
   return (
-    <li 
+    <div 
       key={task.id}
       className={ task.isDone ? 'is_done' : '' }>
-      <input
+      <Checkbox color="secondary" 
         onChange={onChangeStatus}
-        checked={task.isDone} 
-        type="checkbox" />
+        checked={task.isDone}/>
       <EditableSpan 
         title={task.title}
         onChangeInputTitle={onChangeInputTitle}/>
-      <button onClick={onRemove}>Выполнено</button>
-    </li>)
+        <IconButton onClick={onRemove} aria-label="delete" size="small">
+          <DeleteIcon fontSize="inherit" />
+        </IconButton>
+    </div>)
   });
 
   return  (
@@ -66,22 +70,26 @@ const tasks = props.tasks.map((task: any, i: number) => {
         <EditableSpan 
           title={props.title}
           onChangeInputTitle={onChangeTitleTodoList}/>
-          <button onClick={onRemoveTodoLIst}>Remove list</button>
-        </h3>
+        <IconButton onClick={onRemoveTodoLIst} aria-label="delete" size="small">
+          <DeleteIcon fontSize="inherit" />
+        </IconButton>
+      </h3>
       <AddItemForm addItem={addTask}/>
-      <ul className='tasks_list'>
+      <div className='container__tasks-lists'>
         {tasks}
-      </ul>
-      <div className='buttons_block'>
-        <button 
-          className={props.filter === 'all' ? 'active_filter' : ''} 
-          onClick={onAllFilter}>All</button>
-        <button 
-          className={props.filter === 'active' ? 'active_filter' : ''} 
-          onClick={onActiveFilter}>Active</button>
-        <button 
-          className={props.filter === 'completed' ? 'active_filter' : ''} 
-          onClick={onCompletedFilter}>Completed</button>
+      </div>
+      <div className='container__buttons-filters'>
+        <Button
+          variant={props.filter === 'all' ? 'contained' : 'text'} 
+          onClick={onAllFilter}>All</Button>
+        <Button 
+          color={'primary'}
+          variant={props.filter === 'active' ? 'contained' : 'text'} 
+          onClick={onActiveFilter}>Active</Button>
+        <Button 
+          color={'secondary'}
+          variant={props.filter === 'completed' ? 'contained' : 'text'}
+          onClick={onCompletedFilter}>Completed</Button>
       </div>
     </div>
   )

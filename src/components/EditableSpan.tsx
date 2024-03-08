@@ -1,5 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 import { TaskType } from './Todo';
+import { TextField } from '@mui/material';
 
 // TYPES
 type PropsType = {
@@ -31,7 +32,8 @@ const onChangeInputText = (e: ChangeEvent<HTMLInputElement>) => {
   return  (
     editMode 
     ? <span onDoubleClick={activateEditMode}>{props.title}</span>
-    : <input 
+    : <TextField 
+        variant='standard'
         autoFocus type='text' value={title}  
         onChange={onChangeInputText} onBlur={activateViewMode} />
   )
